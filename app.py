@@ -54,23 +54,20 @@ def controller_poke(headers):
         return {f'head_ability_name: {head_ability_name} ': False},200
     return {'controller_poke':True}
 
+# first endpoint: poke
 @app.route('/api/v1/poke')
 def poke():
     response = controller_poke(request.headers)
     return response
 
-# memory ram
-@app.route('/api/v1/ram')
+
+
+# second endpoint: status
+@app.route('/api/v1/status')
 def memory():
     ram = psutil.virtual_memory().total   # total physical memory in Bytes
-    response = {'memory': f' {ram} ram'}
+    response = {'memory': f' {ram} ram', 'system':platform.system() + '-' + sys.platform}
     return response
-
-@app.route('/api/v1/os')
-def os():
-    response = platform.system() + '-' + sys.platform
-    return response
-
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=9000, debug=True)
